@@ -31,7 +31,13 @@ async function create_link() {
     let token = options['token'] || ''
     let short = makeid(6)
     let [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true })
-    let tab_uri = tab.url
+    let tab_uri = undefined
+    try { tab_uri = tab.url }
+    catch {
+        fail()
+        console.error('Fail to get URL')
+        return
+    }
     let request = {
         method: 'POST',
         headers: {
